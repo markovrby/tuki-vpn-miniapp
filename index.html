@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
+
+<title>TUKI VPN</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #071225;
+    --card: #101f38;
+    --card2: #132744;
+    --border: #20395d;
+    --blue: #4b8cff;
+    --blue2: #5dc8f4;
+    --text: #ffffff;
+    --muted: #8497b3;
+    --green: #35df91;
+    --danger: #ff6674;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            #173762 0%,
+            #071225 45%
+        );
+
+    color: var(--text);
+    min-height: 100vh;
+}
+
+.app {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+    min-height: 100vh;
+    padding: 18px 14px 100px;
+}
+
+/* HEADER */
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.avatar {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 50%;
+
+    background:
+        linear-gradient(
+            145deg,
+            #1c3456,
+            #0d1b31
+        );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 23px;
+
+    border: 1px solid #29466e;
+}
+
+.greeting {
+    font-size: 22px;
+    font-weight: 750;
+}
+
+.balance-mini {
+    border: 1px solid #29466e;
+    background: rgba(18, 35, 60, .8);
+
+    padding: 9px 13px;
+
+    border-radius: 13px;
+
+    font-weight: 700;
+}
+
+/* PAGES */
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.page-title {
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.page-subtitle {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* MAIN CARD */
+
+.main-card {
+    background:
+        linear-gradient(
+            145deg,
+            #1a3157,
+            #0d1c33
+        );
+
+    border: 1px solid #29466e;
+
+    border-radius: 28px;
+
+    padding: 24px 20px;
+
+    margin-bottom: 18px;
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.22);
+}
+
+.subscription-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 7px 12px;
+
+    border-radius: 30px;
+
+    background: #18365d;
+
+    color: #8fc1ff;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    margin-bottom: 20px;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+
+    background: var(--blue2);
+
+    border-radius: 50%;
+}
+
+.vpn-title {
+    font-size: 23px;
+    font-weight: 750;
+
+    margin-bottom: 7px;
+}
+
+.vpn-description {
+    color: #91a6c3;
+
+    font-size: 14px;
+    line-height: 1.5;
+
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+
+.primary-button {
+    width: 100%;
+    height: 53px;
+
+    border: none;
+
+    border-radius: 17px;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: 750;
+
+    background:
+        linear-gradient(
+            100deg,
+            #4789ff,
+            #59c8f0
+        );
+
+    cursor: pointer;
+
+    box-shadow:
+        0 9px 25px rgba(61,135,255,.25);
+}
+
+/* QUICK CARD */
+
+.quick-card {
+    background: rgba(16,31,56,.85);
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    padding: 18px;
+
+    margin-bottom: 14px;
+}
+
+.quick-header {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.quick-icon {
+    width: 44px;
+    height: 44px;
+
+    border-radius: 14px;
+
+    background: #1b3152;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 21px;
+}
+
+.quick-title {
+    font-size: 16px;
+    font-weight: 750;
+}
+
+.quick-text {
+    color: var(--muted);
+
+    font-size: 13px;
+
+    margin-top: 5px;
+}
+
+/* SERVER */
+
+.server-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-top: 17px;
+
+    padding-top: 17px;
+
+    border-top: 1px solid #27405f;
+}
+
+.server-left {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.flag {
+    font-size: 28px;
+}
+
+.server-name {
+    font-weight: 700;
+}
+
+.server-ping {
+    color: var(--green);
+
+    font-size: 12px;
+
+    margin-top: 4px;
+}
+
+/* TABS */
+
+.tabs {
+    display: flex;
+
+    background: rgba(16,31,56,.8);
+
+    border: 1px solid var(--border);
+
+    padding: 4px;
+
+    border-radius: 18px;
+
+    margin-bottom: 17px;
+}
+
+.tab {
+    flex: 1;
+
+    padding: 11px 4px;
+
+    text-align: center;
+
+    border-radius: 14px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+    font-weight: 650;
+}
+
+.tab.active {
+    background: #1b3d69;
+    color: white;
+}
+
+/* SUBSCRIPTION */
+
+.subscription-box {
+    background:
+        linear-gradient(
+            145deg,
+            #142947,
+            #0d1a30
+        );
+
+    border: 1px solid #284568;
+
+    border-radius: 24px;
+
+    padding: 20px;
+
+    margin-bottom: 14px;
+}
+
+.subscription-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subscription-name {
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.active-label {
+    background: #123e35;
+    color: var(--green);
+
+    border-radius: 20px;
+
+    padding: 6px 10px;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.days {
+    margin-top: 22px;
+
+    font-size: 45px;
+    font-weight: 850;
+}
+
+.days span {
+    font-size: 14px;
+    color: var(--muted);
+    font-weight: 500;
+}
+
+.progress {
+    height: 6px;
+
+    background: #24364d;
+
+    border-radius: 10px;
+
+    margin-top: 18px;
+}
+
+.progress-fill {
+    width: 72%;
+    height: 100%;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4789ff,
+            #59c8f0
+        );
+}
+
+/* STATS */
+
+.stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 9px;
+
+    margin-bottom: 16px;
+}
+
+.stat {
+    text-align: center;
+
+    background: rgba(14,27,48,.9);
+
+    border: 1px solid var(--border);
+
+    border-radius: 20px;
+
+    padding: 16px 5px;
+}
+
+.stat-icon {
+    font-size: 21px;
+}
+
+.stat-value {
+    margin-top: 8px;
+
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.stat-name {
+    margin-top: 4px;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+/* BALANCE */
+
+.balance-card {
+    text-align: center;
+
+    padding: 30px 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #152b4b,
+            #0d1b31
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: 25px;
+
+    margin-bottom: 16px;
+}
+
+.balance-label {
+    color: var(--muted);
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+}
+
+.balance-value {
+    font-size: 49px;
+
+    font-weight: 850;
+
+    margin: 8px 0 20px;
+}
+
+.balance-actions {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+}
+
+.action {
+    background: #121f35;
+
+    border: 1px solid #263c5d;
+
+    border-radius: 18px;
+
+    padding: 15px 5px;
+
+    text-align: center;
+}
+
+.action-icon {
+    font-size: 22px;
+}
+
+.action-text {
+    font-size: 11px;
+    font-weight: 700;
+
+    margin-top: 8px;
+}
+
+/* PROFILE */
+
+.profile-section {
+    margin-top: 22px;
+}
+
+.section-title {
+    color: #617895;
+
+    font-size: 11px;
+    font-weight: 750;
+
+    margin-bottom: 8px;
+
+    text-transform: uppercase;
+}
+
+.menu-card {
+    overflow: hidden;
+
+    background: rgba(14,28,49,.9);
+
+    border: 1px solid var(--border);
+
+    border-radius: 19px;
+
+    margin-bottom: 15px;
+}
+
+.menu-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    border-bottom: 1px solid #1e324e;
+}
+
+.menu-row:last-child {
+    border-bottom: none;
+}
+
+.menu-row-icon {
+    width: 39px;
+    height: 39px;
+
+    background: #1b3154;
+
+    border-radius: 12px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.menu-info {
+    flex: 1;
+}
+
+.menu-title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.menu-subtitle {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-top: 3px;
+}
+
+.arrow {
+    color: #6f829d;
+    font-size: 20px;
+}
+
+/* BOTTOM NAV */
+
+.bottom-nav {
+    position: fixed;
+
+    left: 50%;
+
+    bottom: 9px;
+
+    transform: translateX(-50%);
+
+    width:
+        min(94%, 470px);
+
+    height: 67px;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    background:
+        rgba(12,23,41,.96);
+
+    backdrop-filter: blur(18px);
+
+    border:
+        1px solid #29405f;
+
+    border-radius: 23px;
+
+    padding: 5px;
+
+    z-index: 100;
+}
+
+.nav-item {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 18px;
+
+    color: #71839c;
+
+    font-size: 10px;
+
+    font-weight: 650;
+}
+
+.nav-icon {
+    font-size: 20px;
+
+    margin-bottom: 3px;
+}
+
+.nav-item.active {
+    color: #fff;
+
+    background:
+        linear-gradient(
+            145deg,
+            #315f9b,
+            #23466f
+        );
+
+    border: 1px solid #4e87c7;
+
+    box-shadow:
+        0 4px 18px rgba(39,112,200,.22);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 360px) {
+
+    .greeting {
+        font-size: 19px;
+    }
+
+    .page-title {
+        font-size: 24px;
+    }
+
+    .balance-value {
+        font-size: 42px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= HOME ================= -->
+
+<div id="home" class="page active">
+
+    <div class="header">
+
+        <div class="user">
+
+            <div class="avatar">
+                🐧
+            </div>
+
+            <div class="greeting">
+                Привет, Максим
+            </div>
+
+        </div>
+
+        <div class="balance-mini">
+            💳 0 ₽
+        </div>
+
+    </div>
+
+
+    <div class="main-card">
+
+        <div class="subscription-status">
+
+            <div class="dot"></div>
+
+            Подписка активна
+
+        </div>
+
+        <div class="vpn-title">
+            Доступ к VPN
+        </div>
+
+        <div class="vpn-description">
+            Подключайтесь к защищённым серверам
+            TUKI VPN в один клик.
+        </div>
+
+        <button
+            class="primary-button"
+            onclick="connectVPN()">
+
+            🛡️ Подключить VPN
+
+        </button>
+
+
+        <div class="server-card">
+
+            <div class="server-left">
+
+                <div class="flag">
+                    🇳🇱
+                </div>
+
+                <div>
+
+                    <div class="server-name">
+                        Нидерланды
+                    </div>
+
+                    <div class="server-ping">
+                        ● 18 ms
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div>
+                ›
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="quick-card">
+
+        <div class="quick-header">
+
+            <div class="quick-icon">
+                👥
+            </div>
+
+            <div>
+
+                <div class="quick-title">
+                    Пригласите друга
+                </div>
+
+                <div class="quick-text">
+                    Получайте бонусы за приглашения
+                </div>
+
+            </div>
+
+            <div>
+                ›
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="quick-card">
+
+        <div class="quick-header">
+
+            <div class="quick-icon">
+                🎁
+            </div>
+
+            <div>
+
+                <div class="quick-title">
+                    3 дня бесплатно
+                </div>
+
+                <div class="quick-text">
+                    Попробуйте TUKI VPN
+                </div>
+
+            </div>
+
+            <div>
+                ›
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= SUBSCRIPTION ================= -->
+
+<div id="subscription" class="page">
+
+    <div class="page-title">
+        Подписка
+    </div>
+
+    <div class="page-subtitle">
+        Управление подпиской и устройствами
+    </div>
+
+
+    <div class="tabs">
+
+        <div class="tab active">
+            💳 Подписка
+        </div>
+
+        <div class="tab">
+            📱 Устройства
+        </div>
+
+        <div class="tab">
+            🏷 Промо
+        </div>
+
+    </div>
+
+
+    <div class="subscription-box">
+
+        <div class="subscription-top">
+
+            <div class="subscription-name">
+                TUKI PRO
+            </div>
+
+            <div class="active-label">
+                ● АКТИВНА
+            </div>
+
+        </div>
+
+        <div class="days">
+            3 <span>дня осталось</span>
+        </div>
+
+        <div class="progress">
+
+            <div class="progress-fill"></div>
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📱
+            </div>
+
+            <div class="stat-value">
+                1
+            </div>
+
+            <div class="stat-name">
+                Устройства
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ∞
+            </div>
+
+            <div class="stat-value">
+                ∞
+            </div>
+
+            <div class="stat-name">
+                Трафик
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                📶
+            </div>
+
+            <div class="stat-value">
+                18 ms
+            </div>
+
+            <div class="stat-name">
+                Ping
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button class="primary-button">
+        💳 Продлить подписку
+    </button>
+
+</div>
+
+
+<!-- ================= BALANCE ================= -->
+
+<div id="balance" class="page">
+
+    <div class="page-title">
+        Баланс
+    </div>
+
+    <div class="page-subtitle">
+        Управление средствами аккаунта
+    </div>
+
+
+    <div class="balance-card">
+
+        <div class="balance-label">
+            ВАШ БАЛАНС
+        </div>
+
+        <div class="balance-value">
+            0 ₽
+        </div>
+
+
+        <div class="balance-actions">
+
+            <div class="action">
+
+                <div class="action-icon">
+                    ＋
+                </div>
+
+                <div class="action-text">
+                    Пополнить
+                </div>
+
+            </div>
+
+
+            <div class="action">
+
+                <div class="action-icon">
+                    ✨
+                </div>
+
+                <div class="action-text">
+                    Промокод
+                </div>
+
+            </div>
+
+
+            <div class="action">
+
+                <div class="action-icon">
+                    🎧
+                </div>
+
+                <div class="action-text">
+                    Поддержка
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="quick-card">
+
+        <div class="quick-header">
+
+            <div class="quick-icon">
+                🧾
+            </div>
+
+            <div>
+
+                <div class="quick-title">
+                    Операции
+                </div>
+
+                <div class="quick-text">
+                    История пополнений и списаний
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= PROFILE ================= -->
+
+<div id="profile" class="page">
+
+    <div class="page-title">
+        Профиль
+    </div>
+
+    <div class="page-subtitle">
+        Управление аккаунтом TUKI VPN
+    </div>
+
+
+    <div class="profile-section">
+
+        <div class="section-title">
+            СЕРВИС
+        </div>
+
+
+        <div class="menu-card">
+
+            <div class="menu-row">
+
+                <div class="menu-row-icon">
+                    📱
+                </div>
+
+                <div class="menu-info">
+
+                    <div class="menu-title">
+                        Установка на устройство
+                    </div>
+
+                    <div class="menu-subtitle">
+                        Настройка VPN за пару минут
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </div>
+
+
+            <div class="menu-row">
+
+                <div class="menu-row-icon">
+                    💳
+                </div>
+
+                <div class="menu-info">
+
+                    <div class="menu-title">
+                        Моя подписка
+                    </div>
+
+                    <div class="menu-subtitle">
+                        Срок, устройства и продление
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            АККАУНТ
+        </div>
+
+
+        <div class="menu-card">
+
+            <div class="menu-row">
+
+                <div class="menu-row-icon">
+                    👥
+                </div>
+
+                <div class="menu-info">
+
+                    <div class="menu-title">
+                        Реферальная программа
+                    </div>
+
+                    <div class="menu-subtitle">
+                        Приглашения и бонусы
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </div>
+
+
+            <div class="menu-row">
+
+                <div class="menu-row-icon">
+                    🔔
+                </div>
+
+                <div class="menu-info">
+
+                    <div class="menu-title">
+                        Уведомления
+                    </div>
+
+                    <div class="menu-subtitle">
+                        Подписка, баланс и новости
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section-title">
+            ПОМОЩЬ
+        </div>
+
+
+        <div class="menu-card">
+
+            <div class="menu-row">
+
+                <div class="menu-row-icon">
+                    🎧
+                </div>
+
+                <div class="menu-info">
+
+                    <div class="menu-title">
+                        Поддержка
+                    </div>
+
+                    <div class="menu-subtitle">
+                        Мы поможем решить вопрос
+                    </div>
+
+                </div>
+
+                <div class="arrow">
+                    ›
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= NAVIGATION ================= -->
+
+<div class="bottom-nav">
+
+    <div
+        class="nav-item active"
+        onclick="openPage('home', this)">
+
+        <div class="nav-icon">
+            ▦
+        </div>
+
+        Главная
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="openPage('subscription', this)">
+
+        <div class="nav-icon">
+            ▭
+        </div>
+
+        Подписка
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="openPage('balance', this)">
+
+        <div class="nav-icon">
+            ▣
+        </div>
+
+        Баланс
+
+    </div>
+
+
+    <div
+        class="nav-item"
+        onclick="openPage('profile', this)">
+
+        <div class="nav-icon">
+            ♙
+        </div>
+
+        Профиль
+
+    </div>
+
+</div>
+
+
+<script>
+
+function openPage(pageId, element) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
+            page.classList.remove("active");
+        });
+
+    document
+        .getElementById(pageId)
+        .classList.add("active");
+
+
+    document
+        .querySelectorAll(".nav-item")
+        .forEach(item => {
+            item.classList.remove("active");
+        });
+
+    element.classList.add("active");
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+let connected = false;
+
+function connectVPN() {
+
+    const button =
+        document.querySelector(".primary-button");
+
+    if (!connected) {
+
+        connected = true;
+
+        button.innerText =
+            "🟢 VPN подключён";
+
+    } else {
+
+        connected = false;
+
+        button.innerText =
+            "🛡️ Подключить VPN";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
